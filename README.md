@@ -67,19 +67,19 @@ from drawcustom import generate_image
 
 Single line or multi-line text with wrapping support.
 
-```json
+```python
 {
     "type": "text",
     "value": "Hello World",
     "x": "50%",
     "y": 50,
-    "font": "ppb",     // Built-in font name, path, or PIL Font object
+    "font": "ppb",     # Built-in font name, path, or PIL Font object
     "size": 24,
     "color": "black",
-    "anchor": "mm",    // Anchor point (e.g., mm = middle-middle)
-    "max_width": 200,  // Optional text wrapping
-    "truncate": False, // Truncate with ellipsis instead of wrapping
-    "align": "center", // left, center, right
+    "anchor": "mm",    # Anchor point (e.g., mm = middle-middle)
+    "max_width": 200,  # Optional text wrapping
+    "truncate": False, # Truncate with ellipsis instead of wrapping
+    "align": "center", # left, center, right
 }
 ```
 
@@ -87,14 +87,14 @@ Single line or multi-line text with wrapping support.
 
 Multi-line text with delimiter-based line breaks.
 
-```json
+```python
 {
     "type": "multiline",
     "value": "Line 1|Line 2|Line 3",
     "delimiter": "|",
     "x": 10,
     "y": 10,
-    "offset_y": 20, //Pixels between lines
+    "offset_y": 20, # Pixels between lines
     "font": "ppb",
     "size": 16,
 }
