@@ -28,7 +28,7 @@ jobs:
         run: uv run mypy src/drawcustom --strict
 
   test:
-    name: Test Suite
+    name: Test Suite (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,13 +46,12 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
 
-      - name: Run tests
+      - name: Run all tests
         run: uv run pytest tests/ -v --tb=short
 
-      - name: Run tests with coverage
+      - name: Generate coverage report
         if: matrix.python-version == '3.11'
-        run: |
-          uv run pytest --cov=src/drawcustom --cov-report=xml --cov-report=term
+        run: uv run pytest tests/ --cov=src/drawcustom --cov-report=xml --cov-report=term
 
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.11'
@@ -61,28 +60,9 @@ jobs:
           file: ./coverage.xml
           fail_ci_if_error: false
 
-  visual-tests:
-    name: Visual Regression Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v3
-
-      - name: Set up Python
-        run: uv python install 3.11
-
-      - name: Install dependencies
-        run: uv sync --all-extras
-
-      - name: Run visual tests
-        run: uv run pytest tests/visual/ -v
-
-      - name: Upload snapshot failures
+      - name: Upload test snapshots on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: snapshot-failures
+          name: test-snapshots-py${{ matrix.python-version }}
           path: tests/visual/__snapshots__/
