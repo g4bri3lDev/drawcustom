@@ -5,7 +5,7 @@ from .colors import ColorResolver, WHITE, BLACK, RED, YELLOW, HALF_BLACK, HALF_R
 from .coordinates import CoordinateParser
 from .fonts import FontManager
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 __all__ = [
     "generate_image",
