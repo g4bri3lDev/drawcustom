@@ -14,13 +14,6 @@
         { "type": "test", "section": "Tests" },
         { "type": "build", "section": "Build System" },
         { "type": "ci", "section": "Continuous Integration" }
-      ],
-      "extra-files": [
-        {
-          "type": "json",
-          "path": "package.json",
-          "jsonpath": "$.version"
-        }
       ]
     }
   }
