@@ -1,7 +1,7 @@
 """Drawcustom - Pure image rendering from drawing instructions."""
 from .core import generate_image, should_show_element
 from .types import ElementType, DrawingContext, TextSegment
-from .colors import ColorResolver, WHITE, BLACK, RED, YELLOW, HALF_BLACK, HALF_RED, HALF_YELLOW
+from .colors import ColorResolver, WHITE, BLACK, RED, YELLOW, HALF_BLACK, HALF_RED, HALF_YELLOW, BLUE, GREEN
 from .coordinates import CoordinateParser
 from .fonts import FontManager
 
@@ -23,4 +23,6 @@ __all__ = [
     "HALF_BLACK",
     "HALF_RED",
     "HALF_YELLOW",
+    "BLUE",
+    "GREEN"
 ]
