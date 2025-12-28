@@ -51,7 +51,7 @@ jobs:
 
       - name: Generate coverage report
         if: matrix.python-version == '3.11'
-        run: uv run pytest tests/ --cov=src/drawcustom --cov-report=xml --cov-report=term
+        run: uv run pytest tests/ --ignore=tests/visual/ --cov=src/drawcustom --cov-report=xml --cov-report=term
 
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.11'
