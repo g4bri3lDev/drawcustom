@@ -1,13 +1,13 @@
-import aiohttp
-
 from dataclasses import dataclass
 from enum import Enum
 from typing import TYPE_CHECKING
 
+import aiohttp
 from PIL import Image
 
 if TYPE_CHECKING:
     from PIL import Image
+
     from .colors import ColorResolver
     from .coordinates import CoordinateParser
     from .fonts import FontManager

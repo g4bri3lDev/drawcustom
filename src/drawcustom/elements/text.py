@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-import re
 import logging
+import re
 from typing import List, Tuple
 
 from PIL import ImageDraw, ImageFont
 
 from drawcustom.registry import element_handler
-from drawcustom.types import ElementType, DrawingContext, TextSegment
+from drawcustom.types import DrawingContext, ElementType, TextSegment
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -226,7 +226,7 @@ async def draw_multiline(ctx: DrawingContext, element: dict) -> None:
 
             for segment in segments:
                 color = ctx.colors.resolve(segment.color)
-                bbox = draw.textbbox(
+                draw.textbbox(
                     (segment.start_x, current_y),
                     segment.text,
                     font=font,
@@ -242,7 +242,7 @@ async def draw_multiline(ctx: DrawingContext, element: dict) -> None:
                     stroke_fill=stroke_fill
                 )
         else:
-            bbox = draw.textbbox(
+            draw.textbbox(
                 (x, current_y),
                 str(line),
                 font=font,
@@ -302,7 +302,10 @@ def parse_colored_text(text: str) -> List[TextSegment]:
 
     segments = []
     current_pos = 0
-    pattern = r'\[(black|white|red|yellow|accent|half_black|half_red|half_yellow|half_accent|gray|grey|g|hb|hr|hy|ha)\](.*?)\[/\1\]'
+    pattern = (
+        r'\[(black|white|red|yellow|accent|half_black|half_red|half_yellow|'
+        r'half_accent|gray|grey|g|hb|hr|hy|ha)\](.*?)\[/\1\]'
+    )
 
     for match in re.finditer(pattern, text, re.DOTALL):
         # Add any text before the match with default color

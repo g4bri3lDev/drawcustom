@@ -6,7 +6,7 @@ from PIL import ImageDraw
 
 from drawcustom.colors import BLACK
 from drawcustom.registry import element_handler
-from drawcustom.types import ElementType, DrawingContext
+from drawcustom.types import DrawingContext, ElementType
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -102,7 +102,10 @@ async def draw_rectangle(ctx: DrawingContext, element: dict) -> None:
     ctx.pos_y = y_end
 
 
-@element_handler(ElementType.RECTANGLE_PATTERN, requires=["x_start", "x_size", "y_start", "y_size", "x_repeat", "y_repeat", "x_offset", "y_offset"])
+@element_handler(
+    ElementType.RECTANGLE_PATTERN,
+    requires=["x_start", "x_size", "y_start", "y_size", "x_repeat", "y_repeat", "x_offset", "y_offset"]
+)
 async def draw_rectangle_pattern(ctx: DrawingContext, element: dict) -> None:
     """
     Draw repeated rectangle pattern.
@@ -172,7 +175,7 @@ async def draw_polygon(ctx: DrawingContext, element: dict) -> None:
     # Get polygon properties
     fill = ctx.colors.resolve(element.get("fill"))
     outline = ctx.colors.resolve(element.get("outline", "black"))
-    width = element.get("width", 1)
+    # width = element.get("width", 1)
 
     # Draw the polygon
     draw.polygon(vertices, fill=fill, outline=outline)
@@ -346,7 +349,7 @@ def draw_dashed_line(draw: ImageDraw.ImageDraw,
         if dash_end >= line_length:
             # A partial dash exists that ends exactly or beyond the line_end
             dash_end = line_length
-            segment_len = dash_end - current_pos
+            # segment_len = dash_end - current_pos
 
             segment_start_x = x1 + step_x * current_pos
             segment_start_y = y1 + step_y * current_pos

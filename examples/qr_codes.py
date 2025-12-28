@@ -1,5 +1,6 @@
 """QR code generation example."""
 import asyncio
+
 from drawcustom import generate_image
 
 

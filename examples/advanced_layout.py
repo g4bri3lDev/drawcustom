@@ -1,5 +1,6 @@
 """Advanced layout with percentage-based positioning."""
 import asyncio
+
 from drawcustom import generate_image
 
 

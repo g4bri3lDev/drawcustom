@@ -3,8 +3,8 @@ from __future__ import annotations
 from PIL import ImageDraw
 
 from ..registry import element_handler
+from ..types import DrawingContext, ElementType
 from .shapes import draw_dashed_line
-from ..types import ElementType, DrawingContext
 
 
 @element_handler(ElementType.DEBUG_GRID)

@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from functools import wraps
-from typing import Callable, TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 if TYPE_CHECKING:
-    from .types import ElementType, DrawingContext
+    from .types import DrawingContext, ElementType
 
 # Global registry populated by decorators
 _handlers: dict["ElementType", tuple[Callable, list[str]]] = {}

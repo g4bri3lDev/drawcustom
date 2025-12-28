@@ -1,5 +1,6 @@
 from typing import Any
 
+
 class ElementBuilder:
     """Builder for creating test element configurations."""
 

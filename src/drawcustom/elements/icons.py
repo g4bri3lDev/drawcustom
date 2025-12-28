@@ -7,8 +7,7 @@ from pathlib import Path
 from PIL import ImageDraw
 
 from drawcustom.registry import element_handler
-from drawcustom.types import ElementType, DrawingContext
-
+from drawcustom.types import DrawingContext, ElementType
 
 _LOGGER = logging.getLogger(__name__)
 

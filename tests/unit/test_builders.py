@@ -1,5 +1,7 @@
 import pytest
+
 from tests.builders import ElementBuilder as E
+
 
 class TestElementBuilder:
     """Test element builder factory methods."""

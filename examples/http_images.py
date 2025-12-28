@@ -1,6 +1,8 @@
 """HTTP image loading example."""
 import asyncio
+
 import aiohttp
+
 from drawcustom import generate_image
 
 

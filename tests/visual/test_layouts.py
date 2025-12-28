@@ -1,8 +1,9 @@
-import pytest
 from io import BytesIO
+
+import pytest
+
 from drawcustom import generate_image
 from tests.builders import ElementBuilder as E
-from tests.conftest import snapshot_png
 
 
 @pytest.mark.asyncio

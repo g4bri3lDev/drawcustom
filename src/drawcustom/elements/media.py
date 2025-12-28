@@ -4,11 +4,11 @@ import logging
 
 import qrcode
 from PIL import Image
-from resizeimage import resizeimage # TODO add dependency
+from resizeimage import resizeimage
 
-from drawcustom.registry import element_handler
-from drawcustom.types import ElementType, DrawingContext
 from drawcustom.media_loader import load_image
+from drawcustom.registry import element_handler
+from drawcustom.types import DrawingContext, ElementType
 
 _LOGGER = logging.getLogger(__name__)
 

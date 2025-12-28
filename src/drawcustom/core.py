@@ -3,17 +3,17 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from PIL import Image
 import aiohttp
+from PIL import Image
 
-from .types import ElementType, DrawingContext
 from .colors import ColorResolver
 from .coordinates import CoordinateParser
-from .fonts import FontManager
-from .registry import get_all_handlers
 
 # Import handler modules to trigger decorator registration
-from .elements import text, shapes, icons, media, visualizations, debug
+from .elements import debug, icons, media, shapes, text, visualizations  # noqa: F401
+from .fonts import FontManager
+from .registry import get_all_handlers
+from .types import DrawingContext, ElementType
 
 _LOGGER = logging.getLogger(__name__)
 

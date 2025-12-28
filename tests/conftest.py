@@ -1,8 +1,9 @@
-import pytest
 from pathlib import Path
-from syrupy.extensions.image import PNGImageSnapshotExtension
-from PIL import Image, ImageFont
+
 import imagehash
+import pytest
+from PIL import Image, ImageFont
+from syrupy.extensions.image import PNGImageSnapshotExtension
 
 # Get package root
 PACKAGE_ROOT = Path(__file__).parent.parent
