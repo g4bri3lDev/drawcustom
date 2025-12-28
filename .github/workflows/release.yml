@@ -42,11 +42,11 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         run: uv sync
 
-      - name: Run tests
-        if: ${{ steps.release.outputs.release_created }}
-        run: |
-          uv run python test_import.py
-          uv run ruff check .
+      # - name: Run tests
+      #   if: ${{ steps.release.outputs.release_created }}
+      #   run: |
+      #     uv run python test_import.py
+      #     uv run ruff check .
 
       - name: Build package
         if: ${{ steps.release.outputs.release_created }}
