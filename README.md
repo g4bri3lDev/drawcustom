@@ -1,3 +1,9 @@
+[![PyPI version](https://img.shields.io/pypi/v/drawcustom.svg)](https://pypi.org/project/drawcustom/)
+[![Python versions](https://img.shields.io/pypi/pyversions/drawcustom.svg)](https://pypi.org/project/drawcustom/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://github.com/g4bri3lDev/drawcustom/actions/workflows/test.yml/badge.svg)](https://github.com/g4bri3lDev/drawcustom/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/g4bri3lDev/drawcustom/branch/main/graph/badge.svg)](https://codecov.io/gh/g4bri3lDev/drawcustom)
+
 # drawcustom
 
 Pure image rendering from drawing instructions.
