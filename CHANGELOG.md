@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/g4bri3lDev/drawcustom/compare/v0.2.0...v0.3.0) (2026-01-15)
+
+
+### Features
+
+* **text:** support hex color tags in parse_colors ([aab85c3](https://github.com/g4bri3lDev/drawcustom/commit/aab85c35c75ff9c585ffe2fd0db4765257c272a8)), closes [#4](https://github.com/g4bri3lDev/drawcustom/issues/4)
+
+
+### Bug Fixes
+
+* **text:** parse blue/green color tags ([65348e3](https://github.com/g4bri3lDev/drawcustom/commit/65348e3fbb357b42bac4c485f6b95787ec31dee3))
+
 ## [0.2.0](https://github.com/g4bri3lDev/drawcustom/compare/v0.1.1...v0.2.0) (2025-12-28)
 
 
