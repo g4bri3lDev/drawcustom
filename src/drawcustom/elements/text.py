@@ -305,7 +305,7 @@ def parse_colored_text(text: str) -> List[TextSegment]:
     pattern = (
         r'\[(black|b|white|w|red|r|yellow|y|blue|bl|green|gr|g|accent|a|'
         r'half_black|half_white|half_red|half_yellow|half_accent|gray|grey|'
-        r'hb|hw|hr|hy|ha)\](.*?)\[/\1\]'
+        r'hb|hw|hr|hy|ha|#[0-9A-Fa-f]{3}|#[0-9A-Fa-f]{6})\](.*?)\[/\1\]'
     )
 
     for match in re.finditer(pattern, text, re.DOTALL):

@@ -13,3 +13,10 @@ def test_parse_colored_text_keeps_unmarked_text_black():
 
     assert [segment.text for segment in segments] == ["Hello ", "B"]
     assert [segment.color for segment in segments] == ["black", "blue"]
+
+
+def test_parse_colored_text_supports_hex_tags():
+    segments = parse_colored_text("[#0f0]G[/#0f0][#00FFAA]H[/#00FFAA]")
+
+    assert [segment.text for segment in segments] == ["G", "H"]
+    assert [segment.color for segment in segments] == ["#0f0", "#00FFAA"]
