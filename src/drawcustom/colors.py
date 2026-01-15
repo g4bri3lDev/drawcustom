@@ -48,6 +48,8 @@ class ColorResolver:
         """Resolve named color to RGBA tuple."""
         if color_str in ("black", "b"):
             return BLACK
+        if color_str in ("white", "w"):
+            return WHITE
         if color_str in ("half_black", "hb", "gray", "grey", "half_white",
                          "hw"):
             return HALF_BLACK
@@ -65,6 +67,6 @@ class ColorResolver:
             return HALF_YELLOW
         if color_str in ("blue", "bl"):
             return BLUE
-        if color_str in ("green", "gr"):
+        if color_str in ("green", "gr", "g"):
             return GREEN
         return WHITE
