@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/g4bri3lDev/drawcustom/compare/v0.3.0...v0.4.0) (2026-01-16)
+
+
+### Features
+
+* **icons:** include mdi icons ([596d9b7](https://github.com/g4bri3lDev/drawcustom/commit/596d9b785186ffa56befa3508df46080d788ac7e))
+
 ## [0.3.0](https://github.com/g4bri3lDev/drawcustom/compare/v0.2.0...v0.3.0) (2026-01-15)
 
 
