@@ -1,266 +1,240 @@
+"""Icon element handlers using Material Design Icons.
+
+This module provides icon rendering using the bundled MDI font.
+Over 10,000 icons available at https://pictogrammers.com/library/mdi/
+"""
+
 from __future__ import annotations
 
 import json
 import logging
 from pathlib import Path
 
-from PIL import ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 from drawcustom.registry import element_handler
 from drawcustom.types import DrawingContext, ElementType
 
 _LOGGER = logging.getLogger(__name__)
 
-
-def _load_mdi_metadata(metadata_path: str | Path) -> list[dict]:
-    """Load Material Design Icons metadata JSON.
-
-    Args:
-        metadata_path: Path to materialdesignicons-webfont_meta.json
-
-    Returns:
-        List of icon metadata dictionaries
-
-    Raises:
-        ValueError: If metadata file cannot be loaded
-    """
-    try:
-        with open(metadata_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as err:
-        raise ValueError(
-            f"Failed to load MDI metadata from {metadata_path}: {err}\n"
-            f"Download from: https://pictogrammers.com/"
-        ) from err
+# MDI icon index cache (name -> codepoint)
+_mdi_index: dict[str, str] | None = None
 
 
-def _find_icon_codepoint(icon_name: str, mdi_data: list[dict]) -> str:
-    """Find icon codepoint from metadata.
-
-    Args:
-        icon_name: Icon name (without mdi: prefix)
-        mdi_data: MDI metadata
+def _get_mdi_index() -> dict[str, str]:
+    """Get MDI icon index (cached).
 
     Returns:
-        Icon codepoint (hex string)
+        Dictionary mapping icon names to codepoints
 
     Raises:
-        ValueError: If icon not found
+        ValueError: If metadata cannot be loaded
     """
-    # Search direct matches
-    for icon in mdi_data:
-        if icon['name'] == icon_name:
-            return icon['codepoint']
+    global _mdi_index
 
-    # Search aliases
-    for icon in mdi_data:
-        if 'aliases' in icon and icon_name in icon['aliases']:
-            return icon['codepoint']
-
-    raise ValueError(
-        f"Icon '{icon_name}' not found in Material Design Icons.\n"
-        f"See available icons at: https://pictogrammers.com/"
-    )
-
-
-@element_handler(ElementType.ICON, requires=["x", "y", "value", "size", "font"])
-async def draw_icon(ctx: DrawingContext, element: dict) -> None:
-    """Draw Material Design Icons.
-
-    Renders an icon from the Material Design Icons font at the specified
-    position and size.
-
-    Args:
-        ctx: Drawing context
-        element: Element dictionary with icon properties:
-                - font: Path to materialdesignicons-webfont.ttf (REQUIRED)
-                - metadata: Path to materialdesignicons-webfont_meta.json (optional, inferred from font path)
-                - value: Icon name (e.g., "home" or "mdi:home")
-                - x, y: Position
-                - size: Icon size
-                - color/fill: Icon color (default: black)
-                - anchor: Text anchor (default: "la")
-                - stroke_width: Stroke width (default: 0)
-                - stroke_fill: Stroke color (default: white)
-
-    Raises:
-        ValueError: If font not provided, icon name invalid, or rendering fails
-
-    Note:
-        Material Design Icons font and metadata are NOT bundled.
-        Download from: https://pictogrammers.com/
-    """
-    draw = ImageDraw.Draw(ctx.img)
-    draw.fontmode = "1"
-
-    # Coordinates
-    x = ctx.coords.parse_x(element['x'])
-    y = ctx.coords.parse_y(element['y'])
-
-    # Font is required - user must provide path
-    font_path = element['font']
-
-    # Metadata path - try to infer from font path if not provided
-    if 'metadata' in element:
-        metadata_path = element['metadata']
-    else:
-        # Try to find metadata file next to font file
-        font_path_obj = Path(font_path)
-        metadata_path = font_path_obj.parent / "materialdesignicons-webfont_meta.json"
-        if not metadata_path.exists():
-            raise ValueError(
-                f"MDI metadata file not found at {metadata_path}\n"
-                f"Provide 'metadata' parameter or place metadata file next to font.\n"
-                f"Download from: https://pictogrammers.com/"
-            )
+    if _mdi_index is not None:
+        return _mdi_index
 
     # Load metadata
-    mdi_data = _load_mdi_metadata(metadata_path)
+    assets_dir = Path(__file__).parent.parent / "assets"
+    metadata_path = assets_dir / "materialdesignicons-webfont_meta.json"
 
-    # Get icon name
-    icon_name = element['value']
-    if icon_name.startswith("mdi:"):
-        icon_name = icon_name[4:]
-
-    # Find icon codepoint
-    chr_hex = _find_icon_codepoint(icon_name, mdi_data)
-
-    # Load font using FontManager
-    font = ctx.fonts.get_font(font_path, element['size'])
-
-    # Get drawing properties
-    anchor = element.get('anchor', "la")
-    fill = ctx.colors.resolve(element.get('color') or element.get('fill', "black"))
-    stroke_width = element.get('stroke_width', 0)
-    stroke_fill = ctx.colors.resolve(element.get('stroke_fill', 'white'))
-
-    # Draw icon
     try:
-        draw.text(
-            (x, y),
-            chr(int(chr_hex, 16)),
-            fill=fill,
-            font=font,
-            anchor=anchor,
-            stroke_width=stroke_width,
-            stroke_fill=stroke_fill
+        with open(metadata_path, encoding="utf-8") as f:
+            metadata = json.load(f)
+    except Exception as err:
+        raise ValueError(f"Failed to load MDI metadata: {err}") from err
+
+    # Build index
+    _mdi_index = {}
+    for icon in metadata:
+        name = icon.get("name")
+        codepoint = icon.get("codepoint")
+        if name and codepoint:
+            _mdi_index[name] = codepoint
+            # Index aliases too
+            for alias in icon.get("aliases", []):
+                if alias:
+                    _mdi_index[alias] = codepoint
+
+    _LOGGER.debug(f"Loaded {len(_mdi_index)} MDI icons")
+    return _mdi_index
+
+
+def _render_mdi_icon(name: str, size: int, color: tuple[int, int, int, int]) -> Image.Image:
+    """Render MDI icon to PIL Image.
+
+    Args:
+        name: Icon name (e.g., "home", "cog")
+        size: Icon size in pixels
+        color: RGBA color tuple
+
+    Returns:
+        PIL Image with rendered icon
+
+    Raises:
+        ValueError: If icon not found or cannot be rendered
+    """
+    # Strip mdi: prefix if present
+    if name.startswith("mdi:"):
+        name = name[4:]
+
+    # Find codepoint
+    index = _get_mdi_index()
+    codepoint = index.get(name)
+    if not codepoint:
+        raise ValueError(
+            f"Icon '{name}' not found. "
+            f"Search icons at https://pictogrammers.com/library/mdi/"
         )
+
+    # Convert hex to character
+    try:
+        char = chr(int(codepoint, 16))
     except ValueError as err:
-        raise ValueError(f"Failed to draw icon '{icon_name}': {err}") from err
+        raise ValueError(f"Invalid codepoint for icon '{name}'") from err
 
-    # Update vertical position
-    bbox = draw.textbbox((x, y), chr(int(chr_hex, 16)), font=font, anchor=anchor)
-    ctx.pos_y = bbox[3]
+    # Load font
+    assets_dir = Path(__file__).parent.parent / "assets"
+    font_path = assets_dir / "materialdesignicons-webfont.ttf"
+
+    try:
+        font = ImageFont.truetype(str(font_path), size)
+    except OSError as err:
+        raise ValueError(f"Failed to load MDI font: {err}") from err
+
+    # Render icon
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.text((size // 2, size // 2), char, font=font, fill=color, anchor="mm", fontmode="1")
+
+    return img
 
 
-@element_handler(ElementType.ICON_SEQUENCE, requires=["x", "y", "icons", "size", "font"])
-async def draw_icon_sequence(ctx: DrawingContext, element: dict) -> None:
-    """Draw a sequence of icons in a specified direction.
+@element_handler(ElementType.ICON, requires=["x", "y", "value", "size"])
+async def draw_icon(ctx: DrawingContext, element: dict) -> None:
+    """Draw Material Design Icon.
 
-    Renders multiple icons in a sequence with consistent spacing,
-    useful for creating icon-based status indicators or legends.
+    Renders an icon from the bundled MDI font (10,000+ icons).
 
     Args:
         ctx: Drawing context
-        element: Element dictionary with icon sequence properties:
-                - font: Path to materialdesignicons-webfont.ttf (REQUIRED)
-                - metadata: Path to materialdesignicons-webfont_meta.json (optional, inferred)
-                - icons: List of icon names
+        element: Element dictionary with:
+                - value: Icon name (e.g., "home", "cog")
+                - x, y: Position (supports percentages)
+                - size: Icon size in pixels
+                - color or fill: Icon color (default: black)
+                - anchor: Positioning anchor (default: "mm")
+
+    Example:
+        {"type": "icon", "value": "home", "x": 50, "y": 50, "size": 48}
+    """
+    # Parse coordinates
+    x = ctx.coords.parse_x(element["x"])
+    y = ctx.coords.parse_y(element["y"])
+
+    # Get icon properties
+    name = element["value"]
+    size = element["size"]
+    color = ctx.colors.resolve(element.get("color") or element.get("fill", "black"))
+    anchor = element.get("anchor", "mm")
+
+    # Render icon
+    icon_img = _render_mdi_icon(name, size, color)
+
+    # Calculate paste position based on anchor
+    if anchor == "mm":
+        paste_x, paste_y = x - size // 2, y - size // 2
+    elif anchor == "tl":
+        paste_x, paste_y = x, y
+    elif anchor == "tr":
+        paste_x, paste_y = x - size, y
+    elif anchor == "bl":
+        paste_x, paste_y = x, y - size
+    elif anchor == "br":
+        paste_x, paste_y = x - size, y - size
+    elif anchor == "mt":
+        paste_x, paste_y = x - size // 2, y
+    elif anchor == "mb":
+        paste_x, paste_y = x - size // 2, y - size
+    elif anchor == "lm":
+        paste_x, paste_y = x, y - size // 2
+    elif anchor == "rm":
+        paste_x, paste_y = x - size, y - size // 2
+    else:
+        _LOGGER.warning(f"Unknown anchor '{anchor}', using top-left")
+        paste_x, paste_y = x, y
+
+    # Paste icon
+    ctx.img.paste(icon_img, (paste_x, paste_y), icon_img)
+    ctx.pos_y = paste_y + size
+
+
+@element_handler(ElementType.ICON_SEQUENCE, requires=["x", "y", "icons", "size"])
+async def draw_icon_sequence(ctx: DrawingContext, element: dict) -> None:
+    """Draw a sequence of MDI icons.
+
+    Renders multiple icons in a row with consistent spacing.
+
+    Args:
+        ctx: Drawing context
+        element: Element dictionary with:
+                - icons: List of icon names (e.g., ["home", "cog"])
                 - x, y: Starting position
-                - size: Icon size
+                - size: Icon size in pixels
                 - spacing: Space between icons (default: size/4)
                 - direction: "right", "left", "up", or "down" (default: "right")
-                - fill: Icon color (default: black)
-                - anchor: Text anchor (default: "la")
-                - stroke_width: Stroke width (default: 0)
-                - stroke_fill: Stroke color (default: white)
+                - color or fill: Icon color (default: black)
+                - anchor: Positioning anchor (default: "mm")
 
-    Raises:
-        ValueError: If font not provided, icon names invalid, or rendering fails
+    Example:
+        {"type": "icon_sequence", "icons": ["home", "cog"], "x": 10, "y": 10, "size": 32}
     """
-    draw = ImageDraw.Draw(ctx.img)
-    draw.fontmode = "1"
+    # Parse start position
+    x_start = ctx.coords.parse_x(element["x"])
+    y_start = ctx.coords.parse_y(element["y"])
 
-    # Get basic coordinates and properties
-    x_start = ctx.coords.parse_x(element['x'])
-    y_start = ctx.coords.parse_y(element['y'])
-    size = element['size']
-    spacing = element.get('spacing', size // 4)
-    fill = ctx.colors.resolve(element.get('fill', "black"))
-    anchor = element.get('anchor', "la")
-    stroke_width = element.get('stroke_width', 0)
-    stroke_fill = ctx.colors.resolve(element.get('stroke_fill', 'white'))
-    direction = element.get('direction', 'right')
+    # Get properties
+    size = element["size"]
+    spacing = element.get("spacing", size // 4)
+    color = ctx.colors.resolve(element.get("color") or element.get("fill", "black"))
+    anchor = element.get("anchor", "mm")
+    direction = element.get("direction", "right")
 
-    # Font is required
-    font_path = element['font']
+    current_x, current_y = x_start, y_start
+    max_x, max_y = x_start, y_start
 
-    # Metadata path
-    if 'metadata' in element:
-        metadata_path = element['metadata']
-    else:
-        font_path_obj = Path(font_path)
-        metadata_path = font_path_obj.parent / "materialdesignicons-webfont_meta.json"
-        if not metadata_path.exists():
-            raise ValueError(
-                f"MDI metadata file not found at {metadata_path}\n"
-                f"Provide 'metadata' parameter or place metadata file next to font."
-            )
-
-    # Load metadata and font
-    mdi_data = _load_mdi_metadata(metadata_path)
-    font = ctx.fonts.get_font(font_path, size)
-
-    max_y = y_start
-    max_x = x_start
-    current_x = x_start
-    current_y = y_start
-
-    # Draw each icon in sequence
-    for icon_name in element['icons']:
-        if icon_name.startswith("mdi:"):
-            icon_name = icon_name[4:]
-
-        # Find icon codepoint
+    # Draw each icon
+    for name in element["icons"]:
         try:
-            chr_hex = _find_icon_codepoint(icon_name, mdi_data)
+            icon_img = _render_mdi_icon(name, size, color)
         except ValueError as err:
-            _LOGGER.warning(f"Skipping invalid icon '{icon_name}': {err}")
+            _LOGGER.warning(f"Skipping icon '{name}': {err}")
             continue
 
-        # Draw icon
-        try:
-            draw.text(
-                (current_x, current_y),
-                chr(int(chr_hex, 16)),
-                fill=fill,
-                font=font,
-                anchor=anchor,
-                stroke_width=stroke_width,
-                stroke_fill=stroke_fill
-            )
+        # Calculate paste position
+        if anchor == "mm":
+            paste_x, paste_y = current_x - size // 2, current_y - size // 2
+        elif anchor == "tl":
+            paste_x, paste_y = current_x, current_y
+        else:
+            paste_x, paste_y = current_x, current_y
 
-            # Calculate bounds
-            bbox = draw.textbbox(
-                (current_x, current_y),
-                chr(int(chr_hex, 16)),
-                font=font,
-                anchor=anchor
-            )
-            max_y = max(max_y, bbox[3])
-            max_x = max(max_x, bbox[2])
+        # Paste icon
+        ctx.img.paste(icon_img, (paste_x, paste_y), icon_img)
 
-            # Move to next position
-            if direction == 'right':
-                current_x += size + spacing
-            elif direction == 'left':
-                current_x -= size + spacing
-            elif direction == 'down':
-                current_y += size + spacing
-            elif direction == 'up':
-                current_y -= size + spacing
+        # Track bounds
+        max_x = max(max_x, paste_x + size)
+        max_y = max(max_y, paste_y + size)
 
-        except ValueError as err:
-            raise ValueError(f"Failed to draw icon '{icon_name}': {err}") from err
+        # Move to next position
+        if direction == "right":
+            current_x += size + spacing
+        elif direction == "left":
+            current_x -= size + spacing
+        elif direction == "down":
+            current_y += size + spacing
+        elif direction == "up":
+            current_y -= size + spacing
 
-    ctx.pos_y = max(max_y, current_y)
+    ctx.pos_y = max_y
