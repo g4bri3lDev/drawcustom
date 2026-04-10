@@ -261,7 +261,10 @@ def _parse_x_legend(element: dict, ctx: DrawingContext, font_name: str, duration
     interval = duration.total_seconds() / 4
     cfg = element.get("xlegend", {})
     if not cfg:
-        return SimpleNamespace(enabled=False, interval=interval, height=0, position=None, font=None, color=None, time_format="%H:%M", snap_to_hours=True)
+        return SimpleNamespace(
+            enabled=False, interval=interval, height=0, position=None,
+            font=None, color=None, time_format="%H:%M", snap_to_hours=True,
+        )
     raw_interval = cfg.get("interval")
     if raw_interval is not None:
         interval = float(raw_interval)
@@ -285,7 +288,10 @@ def _parse_x_legend(element: dict, ctx: DrawingContext, font_name: str, duration
 def _parse_x_axis(element: dict, ctx: DrawingContext) -> SimpleNamespace:
     cfg = element.get("xaxis", {})
     if not cfg:
-        return SimpleNamespace(enabled=False, width=1, color=None, tick_length=0, tick_width=0, grid=False, grid_color=None, grid_style="dotted")
+        return SimpleNamespace(
+            enabled=False, width=1, color=None,
+            tick_length=0, tick_width=0, grid=False, grid_color=None, grid_style="dotted",
+        )
     return SimpleNamespace(
         enabled=True,
         width=cfg.get("width", 1),
@@ -306,7 +312,10 @@ def _x_label_height(xlc: SimpleNamespace, xac: SimpleNamespace) -> int:
     return xlc.font.getbbox("00:00")[3] + (xac.tick_width if xac.enabled else 0) + 2
 
 
-def _calc_diagram(x_start: int, y_start: int, width: int, height: int, ylc: SimpleNamespace, xlc: SimpleNamespace, label_h: int) -> SimpleNamespace:
+def _calc_diagram(
+    x_start: int, y_start: int, width: int, height: int,
+    ylc: SimpleNamespace, xlc: SimpleNamespace, label_h: int,
+) -> SimpleNamespace:
     diag_x = x_start + (ylc.width if ylc.pos == "left" else 0)
     diag_y = y_start + (label_h if xlc.position == "top" and xlc.height != 0 else 0)
     diag_w = width - (ylc.width if ylc.pos in ("left", "right") else 0)
@@ -387,14 +396,20 @@ def _render_x_axis(
     curr_time: datetime, end_time: datetime,
 ) -> None:
     if xac.width > 0 and xac.color:
-        draw.line([(diag.x, diag.y + diag.height), (diag.x + diag.width, diag.y + diag.height)], fill=xac.color, width=xac.width)
+        draw.line(
+            [(diag.x, diag.y + diag.height), (diag.x + diag.width, diag.y + diag.height)],
+            fill=xac.color, width=xac.width,
+        )
     if xac.tick_length > 0 and xac.color:
         curr = curr_time
         while curr <= end_time:
             rel_x = (curr - start) / duration
             x = round(diag.x + rel_x * (diag.width - 1))
             if diag.x <= x <= diag.x + diag.width:
-                draw.line([(x, diag.y + diag.height), (x, diag.y + diag.height - xac.tick_length)], fill=xac.color, width=xac.tick_width)
+                draw.line(
+                    [(x, diag.y + diag.height), (x, diag.y + diag.height - xac.tick_length)],
+                    fill=xac.color, width=xac.tick_width,
+                )
             curr += timedelta(seconds=xlc.interval)
     if xac.grid and xac.grid_color:
         curr = curr_time
@@ -422,8 +437,14 @@ def _render_x_labels(
             text = curr_time.strftime(xlc.time_format)
             if xlc.position == "bottom":
                 if xac.width > 0 and xac.color:
-                    draw.line([(x, diag.y + diag.height), (x, diag.y + diag.height - xac.tick_width)], fill=xac.color, width=xac.width)
-                draw.text((x, diag.y + diag.height + xac.tick_width + 2), text, fill=xlc.color, font=xlc.font, anchor="mt")
+                    draw.line(
+                        [(x, diag.y + diag.height), (x, diag.y + diag.height - xac.tick_width)],
+                        fill=xac.color, width=xac.width,
+                    )
+                draw.text(
+                    (x, diag.y + diag.height + xac.tick_width + 2),
+                    text, fill=xlc.color, font=xlc.font, anchor="mt",
+                )
             else:  # top
                 if xac.width > 0 and xac.color:
                     draw.line([(x, diag.y), (x, diag.y + xac.tick_width)], fill=xac.color, width=xac.width)
@@ -539,12 +560,18 @@ async def draw_plot(ctx: DrawingContext, element: dict) -> None:
     # Debug borders
     if element.get("debug", False):
         draw.rectangle((x_start, y_start, x_end, y_end), fill=None, outline=ctx.colors.resolve("black"), width=1)
-        draw.rectangle((diag.x, diag.y, diag.x + diag.width - 1, diag.y + diag.height - 1), fill=None, outline=ctx.colors.resolve("red"), width=1)
+        draw.rectangle(
+            (diag.x, diag.y, diag.x + diag.width - 1, diag.y + diag.height - 1),
+            fill=None, outline=ctx.colors.resolve("red"), width=1,
+        )
 
     # Y legend and axis
     if ylc.enabled:
         shift = label_h if xlc.position == "top" and xlc.height != 0 else 0
-        _render_y_legend(draw, ylc, yac.tick_every, min_v, max_v, spread, diag, x_start, x_end, y_start + shift, y_end - label_h + shift)
+        _render_y_legend(
+            draw, ylc, yac.tick_every, min_v, max_v, spread,
+            diag, x_start, x_end, y_start + shift, y_end - label_h + shift,
+        )
     if yac.enabled:
         _render_y_axis(draw, yac, diag, min_v, max_v, spread)
 
