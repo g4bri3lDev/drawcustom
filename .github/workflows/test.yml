@@ -5,10 +5,14 @@ on:
     branches: [main]
   pull_request:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     name: Test Suite (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13", "3.14"]
@@ -19,8 +23,14 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
+      - name: Cache uv dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('uv.lock') }}-py${{ matrix.python-version }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
 
       - name: Install dependencies
         run: uv sync --all-extras
@@ -43,5 +53,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: test-snapshots-py${{ matrix.python-version }}
+          name: test-snapshots-py${{ matrix.python-version }}-${{ github.run_id }}
           path: tests/visual/__snapshots__/
