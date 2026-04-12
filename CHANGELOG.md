@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.4](https://github.com/OpenDisplay/odl-renderer/compare/odl-renderer-v0.5.3...odl-renderer-v0.5.4) (2026-04-12)
+
+
+### Documentation
+
+* update image paths for pypi ([ddd35c5](https://github.com/OpenDisplay/odl-renderer/commit/ddd35c57ecf39ee2014c21829e6aaedc726d2084))
+* update plot ([5001231](https://github.com/OpenDisplay/odl-renderer/commit/5001231e34f69adf9a053fefc982d9a5b01c4f33))
+
 ## [0.5.3](https://github.com/OpenDisplay/odl-renderer/compare/odl-renderer-v0.5.2...odl-renderer-v0.5.3) (2026-04-12)
 
 
