@@ -1,7 +1,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/odl-renderer.svg)](https://pypi.org/project/odl-renderer/)
 [![Python versions](https://img.shields.io/pypi/pyversions/odl-renderer.svg)](https://pypi.org/project/odl-renderer/)
-[![Lint](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/lint.yml/badge.svg)](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/lint.yml)
-[![Tests](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/test.yml/badge.svg)](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/test.yml)[![codecov](https://codecov.io/gh/g4bri3lDev/odl-renderer/branch/main/graph/badge.svg)](https://codecov.io/gh/g4bri3lDev/odl-renderer)
+[![Lint](https://github.com/OpenDisplay/odl-renderer/actions/workflows/lint.yml/badge.svg)](https://github.com/OpenDisplay/odl-renderer/actions/workflows/lint.yml)
+[![Tests](https://github.com/OpenDisplay/odl-renderer/actions/workflows/test.yml/badge.svg)](https://github.com/OpenDisplay/odl-renderer/actions/workflows/test.yml)[![codecov](https://codecov.io/gh/OpenDisplay/odl-renderer/branch/main/graph/badge.svg)](https://codecov.io/gh/OpenDisplay/odl-renderer)
 
 # odl-renderer
 
