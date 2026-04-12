@@ -142,7 +142,7 @@ Used by `text`, `icon`, and `icon_sequence` to set which point of the element al
 
 Every element type accepts an optional `visible` field. When `false`, the element is skipped entirely (no rendering, no position update). Defaults to `true`.
 
-```python
+```yaml
 {
     "type": "text",
     "value": "Hidden",
@@ -178,7 +178,7 @@ Single-line text with optional wrapping, truncation, stroke, and inline color ma
 | `parse_colors` | no       | `false`         | Enable `[red]text[/red]` inline color markup                       |
 | `y_padding`    | no       | `10`            | Extra space above when auto-stacking                               |
 
-```python
+```yaml
 {
     "type": "text",
     "value": "Hello",
@@ -215,7 +215,7 @@ Fixed-line text split by a delimiter, each line placed at a fixed vertical offse
 | `stroke_fill`  | no       | `"white"` | Outline color                               |
 | `parse_colors` | no       | `false`   | Inline color markup                         |
 
-```python
+```yaml
 {
     "type": "multiline",
     "value": "Line 1|Line 2|Line 3",
@@ -249,7 +249,7 @@ Rectangle with optional fill, outline, and rounded corners.
 | `corners` | no       | —         | Which corners to round: `"all"`, `"top_left"`, `"top_right"`, `"bottom_left"`, `"bottom_right"` (comma-separated) |
 | `radius`  | no       | `10`      | Corner radius; only applies when `corners` is set                                                                 |
 
-```python
+```yaml
 {
     "type": "rectangle",
     "x_start": 0,
@@ -283,7 +283,7 @@ Repeating grid of rectangles — useful for dot matrices, grids, and decorative 
 | `width`              | no       | `1`       | Border width                      |
 | `corners` / `radius` | no       | —         | Same as `rectangle`               |
 
-```python
+```yaml
 {
     "type": "rectangle_pattern",
     "x_start": 10,
@@ -315,7 +315,7 @@ Circle defined by center point and radius.
 | `outline` | no       | `"black"` | Border color     |
 | `width`   | no       | `1`       | Border width     |
 
-```python
+```yaml
 {
     "type": "circle",
     "x": 50,
@@ -344,7 +344,7 @@ Ellipse defined by a bounding box.
 | `outline` | no       | `"black"` | Border color |
 | `width`   | no       | `1`       | Border width |
 
-```python
+```yaml
 {
     "type": "ellipse",
     "x_start": 10,
@@ -369,7 +369,7 @@ Arbitrary polygon defined by a list of vertices.
 | `fill`    | no       | —         | Fill color             |
 | `outline` | no       | `"black"` | Border color           |
 
-```python
+```yaml
 {
     "type": "polygon",
     "points": [[10, 50], [50, 10], [90, 50], [50, 90]],
@@ -396,7 +396,7 @@ Arc or pie slice defined by center, radius, and angle range.
 | `outline`     | no       | `"black"` | Border color                                  |
 | `width`       | no       | `1`       | Border width                                  |
 
-```python
+```yaml
 {
     "type": "arc",
     "x": 50,
@@ -428,7 +428,7 @@ Straight line between two points with optional dashing.
 | `dash_length`  | no       | `5`       | Length of each dash                |
 | `space_length` | no       | `3`       | Gap between dashes                 |
 
-```python
+```yaml
 {
     "type": "line",
     "x_start": 0,
@@ -460,7 +460,7 @@ Single MDI icon.
 | `color`  | no       | `"black"` | Icon color                               |
 | `anchor` | no       | `"mm"`    | Anchor point                             |
 
-```python
+```yaml
 {
     "type": "icon",
     "value": "mdi:thermometer",
@@ -490,7 +490,7 @@ Row or column of MDI icons.
 | `color`     | no       | `"black"`  | Icon color                               |
 | `anchor`    | no       | `"mm"`     | Anchor point                             |
 
-```python
+```yaml
 {
     "type": "icon_sequence",
     "icons": ["mdi:weather-sunny", "mdi:weather-cloudy", "mdi:weather-rainy"],
@@ -522,7 +522,7 @@ Image from a URL, file path, data URI, bytes, or PIL Image object. Resized to fi
 | `rotate`        | no       | `0`         | Rotation in degrees                                            |
 | `resize_method` | no       | `"stretch"` | `"stretch"`, `"crop"`, `"cover"`, or `"contain"`               |
 
-```python
+```yaml
 {
     "type": "dlimg",
     "url": "https://example.com/photo.jpg",
@@ -552,7 +552,7 @@ QR code generated from any text or URL.
 | `border`  | no       | `1`       | Quiet zone size in modules |
 | `boxsize` | no       | `2`       | Pixel size of each module  |
 
-```python
+```yaml
 {
     "type": "qrcode",
     "data": "https://opendisplay.org",
@@ -586,7 +586,7 @@ Horizontal or vertical progress bar with optional percentage label.
 | `show_percentage` | no       | `false`   | Overlay percentage text                  |
 | `font_name`       | no       | `"ppb"`   | Font for percentage text                 |
 
-```python
+```yaml
 {
     "type": "progress_bar",
     "x_start": 10,
@@ -670,7 +670,7 @@ Time-series line chart with configurable axes, grid, and legends. Requires a `Da
 
 </details>
 
-```python
+```yaml
 {
     "type": "plot",
     "data": [{"entity": "sensor.temperature", "color": "red"}],
@@ -705,7 +705,7 @@ Simple bar chart with labeled axes.
 | `legend_size`  | Label font size                                                     |
 | `legend_color` | Label color                                                         |
 
-```python
+```yaml
 {
     "type": "diagram",
     "x": 0,
@@ -740,7 +740,7 @@ Renders a coordinate grid over the image. Useful during layout development.
 | `label_font_size` | no       | `12`          | Label font size          |
 | `font`            | no       | `"ppb"`       | Font for labels          |
 
-```python
+```yaml
 {
     "type": "debug_grid",
     "spacing": 20,
