@@ -3,7 +3,7 @@ from io import BytesIO
 import pytest
 from PIL import Image
 
-from drawcustom import generate_image
+from odl_renderer import generate_image
 from tests.builders import ElementBuilder as E
 
 

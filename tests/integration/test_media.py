@@ -9,7 +9,7 @@ import tempfile
 import pytest
 from PIL import Image
 
-from drawcustom import generate_image
+from odl_renderer import generate_image
 
 
 def _png_bytes() -> bytes:

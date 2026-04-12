@@ -6,8 +6,8 @@ from typing import Any, List, Tuple
 
 from PIL import ImageDraw, ImageFont
 
-from drawcustom.registry import element_handler
-from drawcustom.types import DrawingContext, ElementType, TextSegment
+from odl_renderer.registry import element_handler
+from odl_renderer.types import DrawingContext, ElementType, TextSegment
 
 _LOGGER = logging.getLogger(__name__)
 

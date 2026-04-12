@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "drawcustom"
+name = "odl-renderer"
 version = "0.5.0"
 description = "Pure image rendering from drawing instructions for e-paper displays"
 readme = "README.md"
@@ -12,7 +12,7 @@ license = {text = "MIT"}
 authors = [
     {name = "g4bri3lDev", email = "admin@g4bri3l.de"}
 ]
-keywords = ["e-paper", "eink", "image", "rendering", "drawcustom"]
+keywords = ["e-paper", "eink", "image", "rendering", "odl", "opendisplay", "open-display-language"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -55,12 +55,13 @@ dev = [
     "prek>=0.3.4",
 ]
 [project.urls]
-Homepage = "https://github.com/g4bri3lDev/drawcustom"
-Repository = "https://github.com/g4bri3lDev/drawcustom"
-Issues = "https://github.com/g4bri3lDev/drawcustom/issues"
+Homepage = "https://github.com/g4bri3lDev/odl-renderer"
+Repository = "https://github.com/g4bri3lDev/odl-renderer"
+Issues = "https://github.com/g4bri3lDev/odl-renderer/issues"
+Documentation = "https://opendisplay.org/protocol/open-display-language.html"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/drawcustom"]
+packages = ["src/odl_renderer"]
 
 [tool.ruff]
 line-length = 120

@@ -7,10 +7,10 @@ import qrcode  # type: ignore[import-untyped]
 from PIL import Image
 from resizeimage import resizeimage  # type: ignore[import-untyped]
 
-from drawcustom.colors import BLACK
-from drawcustom.media_loader import load_image
-from drawcustom.registry import element_handler
-from drawcustom.types import DrawingContext, ElementType
+from odl_renderer.colors import BLACK
+from odl_renderer.media_loader import load_image
+from odl_renderer.registry import element_handler
+from odl_renderer.types import DrawingContext, ElementType
 
 _LOGGER = logging.getLogger(__name__)
 

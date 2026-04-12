@@ -1,6 +1,6 @@
 import pytest
 
-from drawcustom import generate_image
+from odl_renderer import generate_image
 
 MDI_ICON = "home"  # stable icon present in all MDI releases
 

@@ -8,8 +8,8 @@ from typing import Any
 
 from PIL import ImageDraw
 
-from drawcustom.registry import element_handler
-from drawcustom.types import DrawingContext, ElementType
+from odl_renderer.registry import element_handler
+from odl_renderer.types import DrawingContext, ElementType
 
 _LOGGER = logging.getLogger(__name__)
 

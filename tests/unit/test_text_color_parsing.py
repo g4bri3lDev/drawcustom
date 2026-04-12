@@ -1,4 +1,4 @@
-from drawcustom.elements.text import parse_colored_text
+from odl_renderer.elements.text import parse_colored_text
 
 
 def test_parse_colored_text_supports_blue_and_green():

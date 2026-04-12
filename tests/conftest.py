@@ -7,7 +7,7 @@ from syrupy.extensions.image import PNGImageSnapshotExtension
 
 # Get package root
 PACKAGE_ROOT = Path(__file__).parent.parent
-ASSETS_DIR = PACKAGE_ROOT / "src" / "drawcustom" / "assets"
+ASSETS_DIR = PACKAGE_ROOT / "src" / "odl_renderer" / "assets"
 
 
 @pytest.fixture

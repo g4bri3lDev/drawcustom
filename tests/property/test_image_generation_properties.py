@@ -3,7 +3,7 @@ from hypothesis import given
 from hypothesis import strategies as st
 from PIL import Image
 
-from drawcustom import generate_image
+from odl_renderer import generate_image
 
 
 class TestImageGenerationProperties:

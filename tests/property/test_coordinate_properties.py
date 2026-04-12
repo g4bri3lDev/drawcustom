@@ -1,7 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 
-from drawcustom.coordinates import CoordinateParser
+from odl_renderer.coordinates import CoordinateParser
 
 
 class TestCoordinateProperties:

@@ -8,9 +8,9 @@ from pathlib import Path
 import pytest
 from PIL import ImageFont
 
-from drawcustom.fonts import FontManager
+from odl_renderer.fonts import FontManager
 
-ASSETS_DIR = Path(__file__).parent.parent.parent / "src" / "drawcustom" / "assets"
+ASSETS_DIR = Path(__file__).parent.parent.parent / "src" / "odl_renderer" / "assets"
 
 
 class TestFontManager:

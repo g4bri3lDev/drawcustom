@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from PIL import Image
 
-from drawcustom import generate_image
+from odl_renderer import generate_image
 
 
 def make_states(count: int, values: list[float]) -> list[dict]:

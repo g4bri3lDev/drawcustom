@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from drawcustom.coordinates import CoordinateParser
+from odl_renderer.coordinates import CoordinateParser
 
 
 class TestCoordinateParser:

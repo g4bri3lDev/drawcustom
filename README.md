@@ -1,13 +1,13 @@
-[![PyPI version](https://img.shields.io/pypi/v/drawcustom.svg)](https://pypi.org/project/drawcustom/)
-[![Python versions](https://img.shields.io/pypi/pyversions/drawcustom.svg)](https://pypi.org/project/drawcustom/)
-[![Lint](https://github.com/g4bri3lDev/drawcustom/actions/workflows/lint.yml/badge.svg)](https://github.com/g4bri3lDev/drawcustom/actions/workflows/lint.yml)
-[![Tests](https://github.com/g4bri3lDev/drawcustom/actions/workflows/test.yml/badge.svg)](https://github.com/g4bri3lDev/drawcustom/actions/workflows/test.yml)[![codecov](https://codecov.io/gh/g4bri3lDev/drawcustom/branch/main/graph/badge.svg)](https://codecov.io/gh/g4bri3lDev/drawcustom)
+[![PyPI version](https://img.shields.io/pypi/v/odl-renderer.svg)](https://pypi.org/project/odl-renderer/)
+[![Python versions](https://img.shields.io/pypi/pyversions/odl-renderer.svg)](https://pypi.org/project/odl-renderer/)
+[![Lint](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/lint.yml/badge.svg)](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/lint.yml)
+[![Tests](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/test.yml/badge.svg)](https://github.com/g4bri3lDev/odl-renderer/actions/workflows/test.yml)[![codecov](https://codecov.io/gh/g4bri3lDev/odl-renderer/branch/main/graph/badge.svg)](https://codecov.io/gh/g4bri3lDev/odl-renderer)
 
-# drawcustom
+# odl-renderer
 
-Pure image rendering from drawing instructions.
+Python renderer for the [OpenDisplay Language (ODL)](https://opendisplay.org/protocol/open-display-language.html).
 
-**drawcustom** is a standalone Python library for generating images from structured drawing instructions. Originally extracted from the OpenEPaperLink Home Assistant integration, it provides a clean, async API for rendering text, shapes, icons, QR codes, and more to PIL images.
+**odl-renderer** is a standalone Python library for generating images from [ODL](https://opendisplay.org/protocol/open-display-language.html) drawing instructions. Originally extracted from the OpenEPaperLink Home Assistant integration, it provides a clean, async API for rendering text, shapes, icons, QR codes, and more to PIL images.
 
 ## Features
 
@@ -22,13 +22,15 @@ Pure image rendering from drawing instructions.
 ## Installation
 
 ```bash
-pip install drawcustom
+uv add odl-renderer
+# or
+pip install odl-renderer
 ```
 
 ## Quickstart
 
 ```python
-from drawcustom import generate_image
+from odl_renderer import generate_image
 
   # Generate a simple image
   image = await generate_image(

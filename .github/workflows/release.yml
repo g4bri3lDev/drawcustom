@@ -19,7 +19,7 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: python
-          package-name: drawcustom
+          package-name: odl-renderer
           bump-minor-pre-major: true
           bump-patch-for-minor-pre-major: true
 

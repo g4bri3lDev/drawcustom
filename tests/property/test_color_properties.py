@@ -1,7 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 
-from drawcustom.colors import ColorResolver
+from odl_renderer.colors import ColorResolver
 
 
 class TestColorProperties:

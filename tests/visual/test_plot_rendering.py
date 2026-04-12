@@ -13,7 +13,7 @@ from io import BytesIO
 import pytest
 import time_machine
 
-from drawcustom import generate_image
+from odl_renderer import generate_image
 
 FROZEN_NOW = datetime(2024, 6, 1, 12, 0, 0, tzinfo=timezone.utc)
 

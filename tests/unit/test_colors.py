@@ -1,6 +1,6 @@
 import pytest
 
-from drawcustom.colors import BLACK, BLUE, GREEN, HALF_BLACK, HALF_RED, HALF_YELLOW, RED, WHITE, YELLOW, ColorResolver
+from odl_renderer.colors import BLACK, BLUE, GREEN, HALF_BLACK, HALF_RED, HALF_YELLOW, RED, WHITE, YELLOW, ColorResolver
 
 
 class TestColorResolver:

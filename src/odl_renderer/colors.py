@@ -32,15 +32,18 @@ class ColorResolver:
     @staticmethod
     def _parse_hex(hex_val: str) -> tuple[int, int, int, int]:
         """Parse hex color string to RGBA tuple."""
-        if len(hex_val) == 3:
-            r = int(hex_val[0] * 2, 16)
-            g = int(hex_val[1] * 2, 16)
-            b = int(hex_val[2] * 2, 16)
-        elif len(hex_val) == 6:
-            r = int(hex_val[0:2], 16)
-            g = int(hex_val[2:4], 16)
-            b = int(hex_val[4:6], 16)
-        else:
+        try:
+            if len(hex_val) == 3:
+                r = int(hex_val[0] * 2, 16)
+                g = int(hex_val[1] * 2, 16)
+                b = int(hex_val[2] * 2, 16)
+            elif len(hex_val) == 6:
+                r = int(hex_val[0:2], 16)
+                g = int(hex_val[2:4], 16)
+                b = int(hex_val[4:6], 16)
+            else:
+                return WHITE
+        except ValueError:
             return WHITE
         return r, g, b, 255
 

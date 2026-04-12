@@ -2,8 +2,8 @@
 
 import pytest
 
-from drawcustom import generate_image
-from drawcustom.core import should_show_element
+from odl_renderer import generate_image
+from odl_renderer.core import should_show_element
 
 
 @pytest.mark.asyncio

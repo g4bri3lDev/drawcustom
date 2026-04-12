@@ -2,7 +2,7 @@
 
 import asyncio
 
-from drawcustom import generate_image
+from odl_renderer import generate_image
 
 
 async def main():
