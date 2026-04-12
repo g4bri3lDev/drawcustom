@@ -183,6 +183,8 @@ Single-line text with optional wrapping, truncation, stroke, and inline color ma
 }
 ```
 
+![text example](docs/screenshots/text.png)
+
 **Inline color markup** (requires `parse_colors: true`): wrap text in `[color]...[/color]` tags. Accepts all named colors, short names, and hex (`[#ff0000]red text[/#ff0000]`).
 
 ---
@@ -219,6 +221,8 @@ Fixed-line text split by a delimiter, each line placed at a fixed vertical offse
 }
 ```
 
+![multiline example](docs/screenshots/multiline.png)
+
 ---
 
 ## Shapes
@@ -249,6 +253,8 @@ Rectangle with optional fill, outline, and rounded corners.
     "fill": "black",
 }
 ```
+
+![rectangle example](docs/screenshots/rectangle.png)
 
 ---
 
@@ -286,6 +292,8 @@ Repeating grid of rectangles — useful for dot matrices, grids, and decorative 
 }
 ```
 
+![rectangle_pattern example](docs/screenshots/rectangle_pattern.png)
+
 ---
 
 ### `circle`
@@ -311,6 +319,8 @@ Circle defined by center point and radius.
     "outline": "black",
 }
 ```
+
+![circle example](docs/screenshots/circle.png)
 
 ---
 
@@ -339,6 +349,8 @@ Ellipse defined by a bounding box.
 }
 ```
 
+![ellipse example](docs/screenshots/ellipse.png)
+
 ---
 
 ### `polygon`
@@ -358,6 +370,8 @@ Arbitrary polygon defined by a list of vertices.
     "fill": "blue",
 }
 ```
+
+![polygon example](docs/screenshots/polygon.png)
 
 ---
 
@@ -388,6 +402,8 @@ Arc or pie slice defined by center, radius, and angle range.
 }
 ```
 
+![arc example](docs/screenshots/arc.png)
+
 ---
 
 ### `line`
@@ -416,6 +432,8 @@ Straight line between two points with optional dashing.
     "fill": "black",
 }
 ```
+
+![line example](docs/screenshots/line.png)
 
 ---
 
@@ -447,6 +465,8 @@ Single MDI icon.
 }
 ```
 
+![icon example](docs/screenshots/icon.png)
+
 ---
 
 ### `icon_sequence`
@@ -473,6 +493,8 @@ Row or column of MDI icons.
     "size": 32,
 }
 ```
+
+![icon_sequence example](docs/screenshots/icon_sequence.png)
 
 ---
 
@@ -506,6 +528,8 @@ Image from a URL, file path, data URI, bytes, or PIL Image object. Resized to fi
 }
 ```
 
+![dlimg example](docs/screenshots/dlimg.png)
+
 ---
 
 ### `qrcode`
@@ -530,6 +554,8 @@ QR code generated from any text or URL.
     "y": "50%",
 }
 ```
+
+![qrcode example](docs/screenshots/qrcode.png)
 
 ---
 
@@ -566,6 +592,8 @@ Horizontal or vertical progress bar with optional percentage label.
     "show_percentage": True,
 }
 ```
+
+![progress_bar example](docs/screenshots/progress_bar.png)
 
 ---
 
@@ -645,6 +673,8 @@ Time-series line chart with configurable axes, grid, and legends. Requires a `Da
 }
 ```
 
+![plot example](docs/screenshots/plot.png)
+
 ---
 
 ### `diagram`
@@ -681,6 +711,8 @@ Simple bar chart with labeled axes.
 }
 ```
 
+![diagram example](docs/screenshots/diagram.png)
+
 ---
 
 ## Debug
@@ -709,3 +741,5 @@ Renders a coordinate grid over the image. Useful during layout development.
     "line_color": "gray",
 }
 ```
+
+![debug_grid example](docs/screenshots/debug_grid.png)

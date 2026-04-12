@@ -31,8 +31,8 @@ async def draw_line(ctx: DrawingContext, element: dict[str, Any]) -> None:
         y_start = ctx.pos_y + element.get("y_padding", 0)
         y_end = y_start
     else:
-        y_start = element["y_start"]
-        y_end = element.get("y_end", y_start)
+        y_start = ctx.coords.parse_y(element["y_start"])
+        y_end = ctx.coords.parse_y(element.get("y_end", element["y_start"]))
 
     # Get line properties
     fill = ctx.colors.resolve(element.get("fill", "black"))
@@ -41,13 +41,13 @@ async def draw_line(ctx: DrawingContext, element: dict[str, Any]) -> None:
     dash_length = element.get("dash_length", 5)
     space_length = element.get("space_length", 3)
 
-    x_start = element["x_start"]
-    x_end = element["x_end"]
+    x_start = ctx.coords.parse_x(element["x_start"])
+    x_end = ctx.coords.parse_x(element["x_end"])
 
     if dashed:
         draw_dashed_line(draw, (x_start, y_start), (x_end, y_end), dash_length, space_length, fill or BLACK, width)
     else:
-        draw.line([(element["x_start"], y_start), (element["x_end"], y_end)], fill=fill, width=width)
+        draw.line([(x_start, y_start), (x_end, y_end)], fill=fill, width=width)
 
     ctx.pos_y = max(y_start, y_end)
 
