@@ -21,31 +21,20 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def _build_mdi_index() -> dict[str, str]:
-    """Load and build the MDI icon index from the bundled metadata file.
+    """Load the MDI icon index from the bundled metadata file.
 
-    Called once at module import time so the result is cached in the module-level
-    ``_mdi_index`` constant. This means the blocking ``open()`` happens when the
-    module is first imported (ideally in an executor) rather than during the first
-    async render request.
+    The metadata is stored as a pre-flattened ``{name: codepoint}`` dict so this
+    is a direct JSON load with no transformation. Called once at module import time
+    so the blocking ``open()`` happens in an executor, not during an async render.
     """
     assets_dir = Path(__file__).parent.parent / "assets"
     metadata_path = assets_dir / "materialdesignicons-webfont_meta.json"
 
     try:
         with open(metadata_path, encoding="utf-8") as f:
-            metadata = json.load(f)
+            index: dict[str, str] = json.load(f)
     except Exception as err:
         raise ValueError(f"Failed to load MDI metadata: {err}") from err
-
-    index: dict[str, str] = {}
-    for icon in metadata:
-        name = icon.get("name")
-        codepoint = icon.get("codepoint")
-        if name and codepoint:
-            index[name] = codepoint
-            for alias in icon.get("aliases", []):
-                if alias:
-                    index[alias] = codepoint
 
     _LOGGER.debug("Loaded %d MDI icons", len(index))
     return index

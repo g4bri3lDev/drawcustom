@@ -5,10 +5,12 @@ from .coordinates import CoordinateParser
 from .core import generate_image, should_show_element
 from .fonts import FontManager
 from .types import DrawingContext, ElementType, TextSegment
+from .warmup import warmup
 
 __version__ = "0.5.6"
 
 __all__ = [
+    "warmup",
     "generate_image",
     "should_show_element",
     "ElementType",
